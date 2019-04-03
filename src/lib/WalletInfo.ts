@@ -5,6 +5,7 @@ import {
     HashedTimeLockedContractInfo,
     ContractInfoEntry,
 } from './ContractInfo';
+import { Account } from './PublicRequestTypes';
 
 export enum WalletType {
     LEGACY = 1,
@@ -74,6 +75,18 @@ export class WalletInfo {
             keyMissing: this.keyMissing,
             fileExported: this.fileExported,
             wordsExported: this.wordsExported,
+        };
+    }
+
+    public toAccountType(): Account {
+        return {
+            accountId: this.id,
+            label: this.label,
+            type: this.type,
+            fileExported: this.fileExported,
+            wordsExported: this.wordsExported,
+            addresses: Array.from(this.accounts.values()).map((address) => address.toAddressType()),
+            contracts: this.contracts.map((contract) => contract.toContractType()),
         };
     }
 }
